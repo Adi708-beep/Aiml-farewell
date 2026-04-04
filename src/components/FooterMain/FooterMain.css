@@ -1,0 +1,217 @@
+
+
+.footer-main {
+  position: relative;
+  background: #000000;
+  padding: 100px 40px 50px;
+  overflow: hidden;
+}
+
+.footer-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.45;
+}
+
+
+
+.footer-box {
+  position: relative;
+  z-index: 2;
+  max-width: 1300px;
+  margin-top: 200px;
+  margin-left: 13%;
+  background: linear-gradient(145deg, rgba(45,0,0,0.88), rgba(10,0,0,0.95));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 38px;
+  padding: 40px 50px 30px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 0 50px rgba(255,0,0,0.12),
+    inset 0 0 60px rgba(255,40,40,0.08);
+  backdrop-filter: blur(20px);
+}
+
+.footer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 55px;
+}
+
+.footer-tag {
+  color: #ff2d2d;
+  letter-spacing: 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(255,0,0,0.9);
+}
+
+.footer-top-btn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.35s ease;
+  
+ 
+}
+.footer-top-btn ,FaArrowUp{
+    animation: bounce 2s infinite;
+    
+}
+
+.footer-top-btn:hover {
+  background: #ff2d2d;
+  box-shadow: 0 0 20px rgba(255,0,0,0.7);
+  transform: translateY(-4px);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 60px;
+}
+
+.footer-brand h2 {
+  color: #fff;
+  font-size: 3.7rem;
+  line-height: 1;
+  margin-bottom: 25px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.footer-brand h2 span {
+  color: #ffd11a;
+  text-shadow: 0 0 15px rgba(255,209,26,0.8);
+}
+
+.footer-brand p {
+  color: rgba(255,255,255,0.75);
+  font-size: 1.08rem;
+  line-height: 1.9;
+  max-width: 500px;
+}
+
+.footer-links h3 {
+  color: #ff4d4d;
+  margin-bottom: 22px;
+  letter-spacing: 4px;
+  font-size: 0.95rem;
+}
+
+.footer-links a,
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.footer-links a:hover,
+.footer-contact-item:hover {
+  color: #fff;
+  transform: translateX(8px);
+  text-shadow: 0 0 12px rgba(255,0,0,0.7);
+}
+
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,0,0,0.6), transparent);
+  margin: 45px 0 22px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 950px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .footer-brand h2 {
+    font-size: 2.8rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 650px) {
+  .footer-main {
+    padding: 60px 18px 30px;
+  }
+
+  .footer-box {
+    padding: 30px 24px;
+    border-radius: 28px;
+  }
+
+  .footer-header {
+    margin-bottom: 40px;
+  }
+
+  .footer-tag {
+    letter-spacing: 4px;
+    font-size: 0.7rem;
+  }
+
+  .footer-brand h2 {
+    font-size: 2.2rem;
+  }
+}
+/* 🔥 HEADING OUTSIDE CARD */
+.footer-heading {
+  text-align: center;
+  font-size: 4rem;
+  letter-spacing: 12px;
+  color: #ff2d2d;
+  margin-bottom: 60px;
+  margin-top: -40px; /* 🔥 pulls it nicely above card */
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 0 10px rgba(255,0,0,0.9),
+    0 0 25px rgba(255,0,0,0.7),
+    0 0 50px rgba(255,0,0,0.5);
+}
+.footer-heading span{
+    color: white;
+      text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 25px rgba(255, 255, 255, 0.7),
+    0 0 50px rgba(255, 255, 255, 0.5);
+}
+.footer-heading span .hash{
+    color : yellow
+}
+
+/* responsive */
+@media (max-width: 650px) {
+  .footer-heading {
+    font-size: 1.8rem;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+  }
+}

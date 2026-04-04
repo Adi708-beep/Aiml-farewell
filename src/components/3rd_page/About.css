@@ -1,0 +1,150 @@
+body{
+margin:0;
+background:black;
+color:white;
+font-family:'Stranger Things',sans-serif;
+}
+
+.about-container{
+
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+text-align:center;
+
+padding:40px;
+
+background:radial-gradient(circle,#0a0a0a,#000);
+
+}
+
+/* headings */
+
+.chapter{
+color:red;
+letter-spacing:6px;
+font-size:20px;
+margin-bottom:20px;
+}
+
+.title{
+font-size:80px;
+margin-bottom:30px;
+}
+
+.title span{
+color:#ffcc00;
+}
+
+/* divider */
+
+.divider{
+
+margin:60px 0;
+letter-spacing:8px;
+color:#aaa;
+font-size:18px;
+
+}
+
+/* timer section */
+
+.tick{
+
+color:red;
+letter-spacing:4px;
+font-size:22px;
+
+}
+
+.running{
+
+font-size:60px;
+margin:20px 0 50px;
+
+}
+
+.running span{
+color:red;
+}
+
+/* timer */
+
+.timer{
+
+display:flex;
+gap:60px;
+flex-wrap:wrap;
+justify-content:center;
+
+}
+
+.box{
+
+width:160px;
+height:160px;
+
+border:2px solid red;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+background:rgba(0,0,0,0.6);
+
+box-shadow:
+0 0 15px red,
+inset 0 0 15px red;
+
+transition:.3s;
+border-radius: 40px;
+
+}
+
+.box:hover{
+
+transform:scale(1.1);
+
+box-shadow:
+0 0 40px red,
+inset 0 0 25px red;
+
+}
+
+.box h1{
+
+font-size:60px;
+
+}
+
+.box p{
+
+font-size:16px;
+letter-spacing:3px;
+
+}
+
+.date{
+
+margin-top:60px;
+
+}
+
+.date h3{
+
+color:#ffcc00;
+font-size:28px;
+letter-spacing:4px;
+
+}
+
+.date p{
+
+font-size:14px;
+color:#aaa;
+
+}

@@ -1,0 +1,113 @@
+/* ================= WRAPPER ================= */
+.menu-wrap {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+/* ================= MENU ================= */
+.menu {
+  display: flex;
+  flex-direction: column; /* 🔥 vertical stack */
+  width: 100%;
+}
+
+/* ================= ITEM ================= */
+.menu__item {
+  width: 100%;
+  height: clamp(80px, 14vh, 140px); /* responsive height */
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.menu__item:first-child {
+  border-top: none;
+}
+
+/* ================= LINK ================= */
+.menu__item-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;   /* 🔥 full width */
+  height: 100%;
+
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+
+  font-weight: 600;
+  font-size: clamp(16px, 3vw, 36px);
+  letter-spacing: clamp(2px, 0.5vw, 8px);
+
+  transition: all 0.3s ease;
+}
+
+.menu__item-link:hover {
+  letter-spacing: clamp(4px, 1vw, 12px);
+}
+
+/* ================= MARQUEE ================= */
+.marquee {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  transform: translate3d(0, 101%, 0);
+}
+
+/* INNER WRAP */
+.marquee__inner-wrap {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* INNER */
+.marquee__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: fit-content;
+  will-change: transform;
+}
+
+/* PART */
+.marquee__part {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* TEXT */
+.marquee span {
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: clamp(16px, 3vw, 36px);
+  padding: 0 1vw;
+}
+
+/* IMAGE */
+.marquee__img {
+  width: clamp(100px, 12vw, 200px);
+  height: clamp(40px, 8vh, 80px);
+  margin: 0 1vw;
+  border-radius: 40px;
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .menu__item {
+    height: 90px;
+  }
+}

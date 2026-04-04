@@ -1,0 +1,227 @@
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 100px; /* prevent overlap */
+}
+
+/* CONTAINER - Glassmorphism Effect */
+.card-nav-container {
+  position: fixed;
+  top: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  z-index: 9999;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+
+  padding: 6px;
+  transition: all 0.3s ease;
+}
+
+/* NAVBAR */
+.card-nav {
+  display: block;
+  height: 60px;
+  background-color: rgb(231, 216, 216);
+  border-radius: 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  will-change: height;
+}
+
+/* TOP BAR */
+.card-nav-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 2;
+}
+
+/* HAMBURGER */
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+ 
+}
+
+.hamburger-line {
+  width: 28px;
+  height: 2px;
+  background-color: currentColor;
+  transition: 0.3s ease;
+}
+
+.hamburger-menu.open .hamburger-line:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.hamburger-menu.open .hamburger-line:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* LOGO CONTAINER */
+.logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 40px;
+  text-align: center;
+  width: 100%;
+  pointer-events: none; /* keeps center alignment clean */
+}
+
+/* STRANGER THINGS TEXT (RESPONSIVE) */
+.logo-text {
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(12px, 2.5vw, 20px); /* 🔥 responsive */
+  letter-spacing: clamp(1px, 0.5vw, 4px);
+  color: #ff1a1a;
+  text-decoration: none;
+  position: relative;
+  pointer-events: auto;
+
+  text-shadow:
+    0 0 5px #ff1a1a,
+    0 0 10px #ff1a1a,
+    0 0 20px #ff0000,
+    0 0 40px #ff0000;
+
+  border-radius: 40px;
+}
+
+/* glowing lines */
+.logo-text::before,
+.logo-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ff1a1a;
+  box-shadow: 0 0 10px #ff0000;
+}
+
+.logo-text::before {
+  top: -6px;
+}
+
+.logo-text::after {
+  bottom: -6px;
+}
+
+/* hover */
+.logo-text:hover {
+  text-shadow:
+    0 0 10px #ff1a1a,
+    0 0 20px #ff0000,
+    0 0 40px #ff0000,
+    0 0 80px #ff0000;
+}
+
+/* BUTTON */
+.card-nav-cta-button {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 6px 14px;
+  font-size: clamp(10px, 1.5vw, 14px); /* responsive */
+  cursor: pointer;
+}
+
+.card-nav-cta-button:hover {
+  background: #333;
+}
+
+/* MENU CONTENT */
+.card-nav-content {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.card-nav.open .card-nav-content {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* MENU ITEMS (RESPONSIVE) */
+.menu-item {
+  font-size: clamp(14px, 2.5vw, 20px);
+  font-weight: 500;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.226);
+}
+
+/* CONTACT */
+.contact {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.contact-icons {
+  display: flex;
+  gap: 16px;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+.contact-icons a {
+  color: rgb(255, 0, 0);
+  transition: 0.3s ease;
+}
+
+.contact-icons a:hover {
+  opacity: 0.6;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .card-nav-container {
+    top: 1.2em;
+  }
+
+  .card-nav-cta-button {
+    display: none;
+  }
+
+  .menu-item {
+    padding: 12px 16px;
+  }
+}

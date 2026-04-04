@@ -1,0 +1,175 @@
+/* 🔥 PAGE */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: white;
+  font-family: 'Stranger Things', sans-serif;
+}
+
+.segment-page {
+  min-height: 100vh;
+  background: #000;
+  color: white;
+  font-family: 'Stranger Things', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(30px, 5vw, 1000px);
+
+  padding: 40px 20px;
+}
+
+/* 🔥 HEADING */
+.segment-heading {
+  font-size: clamp(28px, 5vw, 60px);
+  text-align: center;
+  letter-spacing: 6px;
+
+  color: #ffffff;
+  
+
+ 
+}
+.segment-heading span {
+  font-size: clamp(28px, 5vw, 60px);
+  text-align: center;
+  letter-spacing: 6px;
+
+  color: #ff0000;
+  
+
+ 
+}
+
+/* 🎬 CONTAINER */
+.segment-container {
+  width: 100%;
+  max-width: 1400px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(20px, 4vw, 40px);
+}
+
+/* 🎥 CARD (BIGGER NOW) */
+.segment-card {
+  position: relative;
+  height: clamp(300px, 45vw, 500px);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 50px rgba(255, 255, 255, 0.205),
+    inset 0 0 120px rgba(0, 0, 0, 0.9);
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* 🎥 VIDEO */
+.card-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+
+/* 🔥 OVERLAY */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0),
+    rgba(0, 0, 0, 0.733)
+  );
+}
+
+/* 🔘 REGISTER BUTTON */
+.register-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 3;
+
+  background: white;
+  border: 1px solid #ff2a2a;
+  color: #ff2a2a;
+
+  padding: 8px 18px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 40px;
+
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background: #ff2a2a;
+  color: black;
+}
+
+/* CONTENT */
+.segment-content {
+  position: absolute;
+  bottom: 30px;
+  left: 25px;
+  z-index: 2;
+ 
+  
+}
+
+.segment-content h2 {
+  font-size: clamp(22px, 3vw, 34px);
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+  color: white;
+ 
+}
+.segment-content h2 span {
+  color: #ff2a2a;
+   
+}
+
+.segment-content p {
+  font-size: clamp(11px, 2vw, 16px);
+  opacity: 0.75;
+  letter-spacing: 3px;
+}
+.segment-content p2 {
+  font-size: clamp(11px, 2vw, 14px);
+  opacity: 0.75;
+  letter-spacing: 3px;
+  color: yellow;
+}
+
+/* 🔥 HOVER EFFECT */
+.segment-card:hover {
+  transform: scale(1.04);
+  box-shadow:
+    0 0 80px rgba(235, 235, 235, 0.5),
+    inset 0 0 150px rgba(0, 0, 0, 1);
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .segment-container {
+    grid-template-columns: 1fr;
+  }
+
+  .segment-card {
+    height: 280px;
+  }
+
+  .register-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+}

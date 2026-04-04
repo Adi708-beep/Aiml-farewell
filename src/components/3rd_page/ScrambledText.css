@@ -1,0 +1,15 @@
+.scramble-wrapper{
+max-width:1000px;
+margin:auto;
+text-align:center;
+font-size:22px;
+line-height:2;
+color:#ddd;
+font-family:"stranger things",sans-serif;
+letter-spacing: 5px;
+
+}
+
+.char{
+display:inline-block;
+}

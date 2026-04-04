@@ -1,0 +1,203 @@
+/* GLOBAL */
+body {
+  margin: 0;
+  background: #050505;
+  font-family: "Stranger Things", sans-serif;
+  color: white;
+}
+
+/* WRAPPER */
+.timeline-wrapper {
+  min-height: 100vh;
+  padding: 80px 20px;
+  background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* TEXTURE / PARTICLES */
+.timeline-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* HEADER */
+.timeline-header {
+  text-align: center;
+  margin-bottom: 100px;
+  z-index: 2;
+  position: relative;
+}
+
+.timeline-header h1 {
+  font-size: 52px;
+  letter-spacing: 4px;
+  font-weight: 900;
+}
+
+.timeline-header h1 span {
+  color: #ff1a1a;
+}
+
+.timeline-header p {
+  color: #aaa;
+  font-size: 13px;
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* CENTER LINE */
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  background: #ff1a1a;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 12px #ff1a1a;
+  z-index: 1;
+}
+
+/* ITEM */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 50px 40px;
+  box-sizing: border-box;
+}
+
+/* LEFT SIDE */
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+/* RIGHT SIDE */
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+/* CARD */
+.timeline-card {
+  display: inline-block;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 0, 0, 0.25);
+  padding: 22px 20px;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+/* PERFECT ALIGNMENT FIX */
+.timeline-item.left .timeline-card {
+  margin-right: 60px;
+}
+
+.timeline-item.right .timeline-card {
+  margin-left: 60px;
+}
+
+/* HOVER */
+.timeline-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.4);
+}
+
+/* TEXT */
+.timeline-card .time {
+  color: #ff1a1a;
+  font-size: 11px;
+  letter-spacing: 3px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.timeline-card h3 {
+  margin: 8px 0;
+  font-size: 18px;
+  letter-spacing: 4px;
+  font: bold 20px "Stranger Things", sans-serif;
+}
+
+.timeline-card p {
+   
+  font-size: 12px;
+  color: #ffee00;
+  letter-spacing: 4px;
+  line-height: 1.6;
+  
+}
+
+/* ICON */
+.timeline-icon {
+  position: absolute;
+  
+  transform: translate(-50%, -50%);
+  background: #000;
+  border: 2px solid #ff1a1a;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ff1a1a;
+  font-size: 18px;
+  box-shadow: 0 0 15px #ff1a1a;
+  z-index: 2;
+}
+
+/* FOOTER */
+.timeline-footer {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #666;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .timeline::after {
+    left: 25px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding: 40px 20px 40px 70px;
+  }
+
+  .timeline-item.left,
+  .timeline-item.right {
+    left: 0;
+    text-align: left;
+  }
+
+  .timeline-card {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .timeline-icon {
+    left: 25px;
+  }
+
+  .timeline-header h1 {
+    font-size: 34px;
+  }
+}

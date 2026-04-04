@@ -1,0 +1,79 @@
+/* FULL PAGE */
+.image-page {
+  width: 100%;
+  height: 100vh;
+background-color: rgb(0, 0, 0);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.image-header {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.image-title {
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: #fff;
+
+  /* subtle glow */
+  text-shadow: 
+    0 0 10px rgba(255,255,255,0.15),
+    0 0 20px rgba(255,255,255,0.08);
+}
+
+.image-title span{
+    color: #ff2a2a;
+      text-shadow: 
+    0 0 10px rgba(255, 0, 0, 0.15),
+    0 0 20px rgba(255, 0, 0, 0.08);
+}
+.image-subtitle {
+  margin-top: 10px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 3px;
+}
+
+/* GALLERY WRAPPER */
+.gallery-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* OPTIONAL: SMOOTH EDGE FADE (premium look) */
+.image-page::before,
+.image-page::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.image-page::before {
+  top: 0;
+  background: linear-gradient(to bottom, black, transparent);
+}
+
+.image-page::after {
+  bottom: 0;
+  background: linear-gradient(to top, black, transparent);
+}
+
+/* SCROLL LOCK (used by your gallery) */
+.dg-scroll-lock {
+  overflow: hidden;
+}

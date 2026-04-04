@@ -1,0 +1,243 @@
+.hero {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.521);
+  color: rgb(255, 255, 255);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(15px, 2.5vw, 25px);
+  text-align: center;
+
+  font-family: 'stranger things', sans-serif;
+  position: relative; /* needed for scroll text */
+  overflow: hidden;
+}
+
+/* TOP TEXT */
+.hero-sub {
+  font-size: clamp(10px, 2vw, 12px);
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.856);
+}
+
+.hero-sub span {
+  font-size: clamp(9px, 1.8vw, 10px);
+  display: block;
+  margin-top: 5px;
+}
+
+/* MAIN TITLE */
+.hero-title {
+  font-size: clamp(40px, 8vw, 110px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+/* GLOW TEXT */
+.glow-text span {
+  display: inline-block;
+  color: #ff2a2a;
+
+  text-shadow:
+    0 0 5px #ff0000,
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 40px #ff0000,
+    0 0 80px #ff0000;
+
+  animation: flicker 3s infinite;
+}
+
+/* REALISTIC FLICKER DELAYS */
+.glow-text span:nth-child(1) { animation-delay: 0s; }
+.glow-text span:nth-child(2) { animation-delay: 0.2s; }
+.glow-text span:nth-child(3) { animation-delay: 0.4s; }
+.glow-text span:nth-child(4) { animation-delay: 0.1s; }
+.glow-text span:nth-child(5) { animation-delay: 0.3s; }
+
+/* FLICKER ANIMATION */
+@keyframes flicker {
+  0%   { opacity: 1; }
+  5%   { opacity: 0.4; }
+  10%  { opacity: 1; }
+  15%  { opacity: 0.2; }
+  20%  { opacity: 1; }
+  25%  { opacity: 0.3; }
+  30%  { opacity: 1; }
+  55%  { opacity: 1; }
+  60%  { opacity: 0.2; }
+  65%  { opacity: 1; }
+  80%  { opacity: 0.6; }
+  90%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* SUBTITLE */
+.hero-year {
+  font-size: clamp(14px, 3vw, 18px);
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.856);
+}
+
+.hero-year span {
+  color: #f7c948;
+}
+
+/* TAG */
+.hero-tag {
+  border: 1px solid red;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: clamp(10px, 2vw, 12px);
+  letter-spacing: 2px;
+
+  color: red;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+/* INFO BOX */
+.hero-info {
+  margin-top: 10px;
+  padding: clamp(15px, 3vw, 20px) clamp(20px, 4vw, 30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+
+  font-size: clamp(12px, 2.5vw, 14px);
+  letter-spacing: 2px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  backdrop-filter: blur(10px);
+}
+
+.hero-note {
+  font-size: clamp(9px, 2vw, 10px);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* SCROLL TEXT */
+.scroll-text {
+  position: absolute;
+  bottom: 30px;
+
+  font-size: clamp(9px, 2vw, 10px);
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.4);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  animation: fadeIn 2s ease forwards;
+}
+
+/* ARROW */
+.scroll-text::after {
+  content: "↓";
+  font-size: 16px;
+
+  animation: bounce 1.8s infinite ease-in-out;
+}
+
+/* SMOOTH BOUNCE */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  20% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+}
+
+/* FADE IN */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔥 POPUP STYLES (integrated cleanly) */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow:
+    0 0 40px rgba(255, 0, 0, 0.3),
+    inset 0 0 20px rgba(255, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease;
+}
+
+.popup-box h2 {
+  color: #ff2a2a;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.popup-box p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  letter-spacing: 4px;
+}
+
+.popup-box button {
+  background: transparent;
+  border: 1px solid #ff2a2a;
+  color: #ff2a2a;
+  padding: 10px 25px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: 0.3s;
+}
+
+.popup-box button:hover {
+  background: #ff2a2a;
+  color: black;
+}
