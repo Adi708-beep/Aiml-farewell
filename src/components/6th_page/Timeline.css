@@ -201,3 +201,57 @@ body {
     font-size: 34px;
   }
 }
+
+@media (max-width: 1024px) {
+  .timeline-wrapper {
+    padding: 72px 14px;
+  }
+
+  .timeline-header {
+    margin-bottom: clamp(46px, 8vw, 90px);
+  }
+
+  .timeline-item {
+    padding: 36px 22px;
+  }
+
+  .timeline-item.left .timeline-card {
+    margin-right: 30px;
+  }
+
+  .timeline-item.right .timeline-card {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-item {
+    padding: 30px 12px 30px 56px;
+  }
+
+  .timeline::after,
+  .timeline-icon {
+    left: 18px;
+  }
+
+  .timeline-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .timeline-header h1 {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+
+  .timeline-header p,
+  .timeline-card p,
+  .timeline-footer {
+    letter-spacing: 2px;
+  }
+
+  .timeline-card h3 {
+    letter-spacing: 2px;
+  }
+}

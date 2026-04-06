@@ -242,3 +242,51 @@
   background: #ff2a2a;
   color: black;
 }
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100svh;
+    height: 100svh;
+    padding: 92px 16px 72px;
+    gap: 14px;
+  }
+
+  .hero-sub,
+  .hero-year {
+    letter-spacing: 2px;
+  }
+
+  .hero-info {
+    width: min(94vw, 430px);
+    gap: 8px;
+  }
+
+  .scroll-text {
+    bottom: 16px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 88px 12px 66px;
+  }
+
+  .hero-title {
+    letter-spacing: -1px;
+  }
+
+  .hero-info {
+    width: min(96vw, 400px);
+    padding: 12px 14px;
+  }
+
+  .popup-box {
+    padding: 28px 20px;
+    border-radius: 28px;
+  }
+
+  .popup-box p {
+    letter-spacing: 2px;
+  }
+}

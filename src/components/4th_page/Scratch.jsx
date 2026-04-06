@@ -64,6 +64,22 @@ calculateProgress();
 };
 
 
+const getCanvasPoint=(e)=>{
+
+const canvas = canvasRef.current;
+const rect = canvas.getBoundingClientRect();
+
+const scaleX = canvas.width / rect.width;
+const scaleY = canvas.height / rect.height;
+
+return {
+x:(e.clientX-rect.left)*scaleX,
+y:(e.clientY-rect.top)*scaleY
+};
+
+};
+
+
 const calculateProgress=()=>{
 
 const canvas = canvasRef.current;
@@ -93,12 +109,13 @@ const startDraw=(e)=>{
 setStarted(true);
 isDrawing.current=true;
 
-const rect = canvasRef.current.getBoundingClientRect();
+if(canvasRef.current?.setPointerCapture){
+canvasRef.current.setPointerCapture(e.pointerId);
+}
 
-scratch(
-e.clientX-rect.left,
-e.clientY-rect.top
-);
+const point = getCanvasPoint(e);
+
+scratch(point.x,point.y);
 
 };
 
@@ -107,12 +124,9 @@ const draw=(e)=>{
 
 if(!isDrawing.current) return;
 
-const rect = canvasRef.current.getBoundingClientRect();
+const point = getCanvasPoint(e);
 
-scratch(
-e.clientX-rect.left,
-e.clientY-rect.top
-);
+scratch(point.x,point.y);
 
 };
 
@@ -158,10 +172,11 @@ alt={character.name}
 ref={canvasRef}
 width={420}
 height={540}
-onMouseDown={startDraw}
-onMouseMove={draw}
-onMouseUp={stopDraw}
-onMouseLeave={stopDraw}
+onPointerDown={startDraw}
+onPointerMove={draw}
+onPointerUp={stopDraw}
+onPointerLeave={stopDraw}
+onPointerCancel={stopDraw}
 />
 
 {!started && (

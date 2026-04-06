@@ -202,3 +202,53 @@ body {
   opacity: .6;
   letter-spacing: 3px;
 }
+
+@media (max-width: 768px) {
+  .poster-wrapper {
+    padding: 28px 14px;
+  }
+
+  .poster-card {
+    width: 100%;
+    margin-top: 42px;
+  }
+
+  .poster-content {
+    padding: 20px 16px;
+  }
+
+  .poster-title {
+    margin-top: 16px;
+    letter-spacing: 1px;
+  }
+
+  .poster-details {
+    gap: 14px;
+    margin-top: clamp(24px, 8vw, 56px);
+  }
+
+  .poster-tags {
+    margin-top: 24px;
+    gap: 8px;
+  }
+
+  .poster-footer {
+    margin-top: 24px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .poster-top {
+    letter-spacing: 2px;
+  }
+
+  .poster-sub,
+  .poster-date {
+    letter-spacing: 2px;
+  }
+
+  .poster-tags span {
+    padding: 6px 10px;
+  }
+}

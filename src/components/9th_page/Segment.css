@@ -173,3 +173,50 @@ body {
     font-size: 10px;
   }
 }
+
+@media (max-width: 1024px) {
+  .segment-page {
+    padding: 62px 14px;
+    gap: clamp(26px, 6vw, 80px);
+  }
+
+  .segment-container {
+    gap: 18px;
+  }
+
+  .segment-heading,
+  .segment-heading span {
+    letter-spacing: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .segment-page {
+    padding: 56px 12px;
+  }
+
+  .segment-container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .segment-card {
+    border-radius: 16px;
+  }
+
+  .register-btn {
+    top: 12px;
+    right: 12px;
+  }
+
+  .segment-content {
+    left: 14px;
+    right: 14px;
+    bottom: 18px;
+  }
+
+  .segment-content h2,
+  .segment-content p,
+  .segment-content p2 {
+    letter-spacing: 2px;
+  }
+}

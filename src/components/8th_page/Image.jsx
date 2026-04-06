@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DomeGallery from "./DomeGallery";
 import "./Image.css";
 
 export default function Image() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div id = "gallery" className="image-page">
       
@@ -15,15 +23,15 @@ export default function Image() {
       {/* Gallery Section */}
       <div className="gallery-wrapper">
         <DomeGallery
-          fit={0.55}
-          minRadius={500}
-          maxRadius={1000}
+          fit={isMobile ? 0.7 : 0.55}
+          minRadius={isMobile ? 250 : 500}
+          maxRadius={isMobile ? 680 : 1000}
           dragSensitivity={18}
           enlargeTransitionMs={350}
-          segments={35}
+          segments={isMobile ? 28 : 35}
           overlayBlurColor="#050505"
-          openedImageWidth="260px"
-          openedImageHeight="360px"
+          openedImageWidth={isMobile ? "72vw" : "260px"}
+          openedImageHeight={isMobile ? "62vh" : "360px"}
           imageBorderRadius="20px"
           openedImageBorderRadius="20px"
           grayscale={false}

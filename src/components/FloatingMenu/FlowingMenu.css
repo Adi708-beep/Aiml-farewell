@@ -111,3 +111,18 @@
     height: 90px;
   }
 }
+
+@media (max-width: 480px) {
+  .menu__item {
+    height: 76px;
+  }
+
+  .menu__item-link,
+  .marquee span {
+    letter-spacing: 2px;
+  }
+
+  .marquee__img {
+    border-radius: 22px;
+  }
+}

@@ -148,3 +148,85 @@ font-size:14px;
 color:#aaa;
 
 }
+
+@media (max-width: 1024px) {
+	.about-container {
+		padding: 36px 20px;
+	}
+
+	.title {
+		font-size: clamp(48px, 10vw, 80px);
+		line-height: 1.05;
+	}
+
+	.running {
+		font-size: clamp(34px, 7vw, 60px);
+		line-height: 1.1;
+	}
+
+	.timer {
+		gap: clamp(16px, 4vw, 40px);
+	}
+}
+
+@media (max-width: 768px) {
+	.chapter {
+		font-size: 14px;
+		letter-spacing: 4px;
+	}
+
+	.divider {
+		margin: 40px 0;
+		font-size: 14px;
+		letter-spacing: 4px;
+	}
+
+	.tick {
+		font-size: 16px;
+		letter-spacing: 3px;
+	}
+
+	.box {
+		width: clamp(120px, 28vw, 160px);
+		height: clamp(120px, 28vw, 160px);
+		border-radius: 26px;
+	}
+
+	.box h1 {
+		font-size: clamp(34px, 8vw, 54px);
+	}
+
+	.box p {
+		font-size: 12px;
+		letter-spacing: 2px;
+	}
+
+	.date {
+		margin-top: 44px;
+	}
+
+	.date h3 {
+		font-size: 22px;
+		letter-spacing: 3px;
+	}
+}
+
+@media (max-width: 480px) {
+	.about-container {
+		padding: 30px 14px;
+	}
+
+	.title,
+	.running {
+		letter-spacing: 2px;
+	}
+
+	.box {
+		width: min(42vw, 145px);
+		height: min(42vw, 145px);
+	}
+
+	.date p {
+		font-size: 12px;
+	}
+}

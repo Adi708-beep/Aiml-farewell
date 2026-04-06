@@ -38,6 +38,7 @@ color:#ff0000;
 margin-top:10px;
 color:#aaa;
 font-family:monospace;
+max-width:min(90vw,700px);
 }
 
 /* BIGGER CARD */
@@ -70,6 +71,9 @@ top:0;
 left:0;
 border-radius:18px;
 cursor:pointer;
+width:100%;
+height:100%;
+touch-action:none;
 }
 
 /* label */
@@ -147,4 +151,50 @@ transition:.3s;
 .reset-btn:hover{
 background:red;
 color:black;
+}
+
+@media (max-width: 768px) {
+	.scratch-page {
+		padding-top: 84px;
+		padding-bottom: 84px;
+		padding-left: 14px;
+		padding-right: 14px;
+	}
+
+	.scratch-title {
+		font-size: clamp(34px, 8vw, 52px);
+		line-height: 1.05;
+	}
+
+	.card-wrapper {
+		width: min(420px, 92vw);
+		height: auto;
+		aspect-ratio: 420 / 540;
+		margin-top: 40px;
+	}
+
+	.progress-section {
+		width: min(420px, 92vw);
+		margin-top: 28px;
+	}
+
+	.scratch-label {
+		font-size: clamp(14px, 3.5vw, 18px);
+		letter-spacing: 2px;
+	}
+}
+
+@media (max-width: 480px) {
+	.scratch-page {
+		padding-top: 72px;
+		padding-bottom: 72px;
+	}
+
+	.scratch-title {
+		letter-spacing: 2px;
+	}
+
+	.reset-btn {
+		width: min(92vw, 320px);
+	}
 }

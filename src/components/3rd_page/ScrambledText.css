@@ -13,3 +13,19 @@ letter-spacing: 5px;
 .char{
 display:inline-block;
 }
+
+@media (max-width: 768px) {
+	.scramble-wrapper {
+		max-width: min(1000px, 94vw);
+		font-size: clamp(14px, 3.8vw, 20px);
+		line-height: 1.8;
+		letter-spacing: 3px;
+	}
+}
+
+@media (max-width: 480px) {
+	.scramble-wrapper {
+		font-size: 13px;
+		letter-spacing: 2px;
+	}
+}

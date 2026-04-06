@@ -117,3 +117,28 @@
     padding: 20px;
   }
 }
+
+@media (max-width: 480px) {
+  .dress-wrapper {
+    padding: 66px 12px;
+  }
+
+  .dress-header p {
+    letter-spacing: 2px;
+  }
+
+  .dress-options {
+    gap: 12px;
+  }
+
+  .dress-card {
+    width: min(100%, 360px);
+    justify-content: center;
+  }
+
+  .dress-quote {
+    font-size: 11px;
+    line-height: 1.6;
+    letter-spacing: 2px;
+  }
+}

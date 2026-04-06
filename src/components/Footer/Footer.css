@@ -145,3 +145,45 @@ background-color: black;
   text-shadow: 0 0 8px rgba(255,255,255,0.6);
   transform: translateY(-2px);
 }
+
+@media (max-width: 768px) {
+  .footer {
+    min-height: clamp(260px, 44vh, 460px);
+  }
+
+  .crawl-text {
+    letter-spacing: clamp(2px, 1vw, 6px);
+  }
+
+  .developer-link {
+    right: 12px;
+    bottom: 10px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    max-width: 96vw;
+  }
+
+  .crawl-text {
+    gap: 2px;
+  }
+
+  .footer-sub {
+    letter-spacing: 2px;
+  }
+
+  .developer-link {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .developer-link:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
+}

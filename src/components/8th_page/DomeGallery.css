@@ -223,3 +223,27 @@ main.sphere-main {
 .edge-fade--bottom {
   bottom: 0;
 }
+
+@media (max-width: 768px) {
+  .item__image {
+    inset: 7px;
+  }
+
+  .item__image.active-tile {
+    transform: scale(1.14) translateZ(24px);
+  }
+
+  .viewer {
+    padding: max(12px, var(--viewer-pad));
+  }
+
+  .edge-fade {
+    height: 90px;
+  }
+}
+
+@media (hover: none) {
+  .item__image:hover {
+    transform: none;
+  }
+}
