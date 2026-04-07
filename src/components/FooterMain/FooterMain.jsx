@@ -2,8 +2,37 @@ import "./FooterMain.css";
 import { FaInstagram, FaEnvelope, FaMapMarkerAlt, FaArrowUp } from "react-icons/fa";
 
 export default function FooterMain() {
+  const email = "aimlfarewell@gmail.com";
+
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleEmailClick = (e) => {
+    e.preventDefault();
+
+    const ua = navigator.userAgent || "";
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
+
+    if (isAndroid) {
+      window.location.href = `intent://co?to=${encodeURIComponent(email)}#Intent;scheme=googlegmail;package=com.google.android.gm;end`;
+      setTimeout(() => {
+        window.location.href = `mailto:${email}`;
+      }, 500);
+      return;
+    }
+
+    if (isIOS) {
+      window.location.href = `googlegmail:///co?to=${encodeURIComponent(email)}`;
+      setTimeout(() => {
+        window.location.href = `mailto:${email}`;
+      }, 500);
+      return;
+    }
+
+    window.open(gmailWebUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -60,10 +89,16 @@ export default function FooterMain() {
   <span>@aiml_farewell</span>
 </a>
 
-            <div className="footer-contact-item">
+            <a
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`}
+              onClick={handleEmailClick}
+              className="footer-contact-item"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaEnvelope />
-              <span>aimlfarewell@gmail.com</span>
-            </div>
+              <span>{email}</span>
+            </a>
 
             <div className="footer-contact-item">
               <FaMapMarkerAlt />

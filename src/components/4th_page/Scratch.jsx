@@ -7,10 +7,6 @@ name:"Eleven",
 img:"https://images.unsplash.com/photo-1632974079504-2ed42d367bd5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0cmFuZ2VyJTIwdGhpbmdzJTIwY2hhcmFjdGVyc3xlbnwwfHwwfHx8MA%3D%3D"
 },
 {
-name:"Vecna",
-img:"https://i.pinimg.com/736x/0b/f7/64/0bf764e3cce80b8a0fa46c75fba81c84.jpg"
-},
-{
 name:"Steve",
 img:"https://i.pinimg.com/1200x/67/7c/66/677c661c95bfb99f005bdce2d4001005.jpg"
 },

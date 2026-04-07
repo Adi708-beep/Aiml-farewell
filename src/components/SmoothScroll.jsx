@@ -4,10 +4,12 @@ import Lenis from 'lenis';
 const SmoothScroll = () => {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+    if (reduceMotion || coarsePointer || lowMemory) return;
 
     const lenis = new Lenis({
-      duration: 1.05,
+      duration: 0.95,
       smoothWheel: true,
       wheelMultiplier: 0.9,
       touchMultiplier: 1,

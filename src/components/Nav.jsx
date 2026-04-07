@@ -178,12 +178,9 @@ const CardNav = ({
               CONTACT
             </a>
             <div className="contact-icons">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/aiml.stcet/" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />
-              </a>
-              <a href="mailto:aimlfarewell@gmail.com">
-                <FaEnvelope />
-              </a>
+            </a>
             </div>
           </div>
 

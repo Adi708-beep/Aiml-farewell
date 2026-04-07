@@ -171,15 +171,24 @@ export default function EvilEye({
   useEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+    const lowPowerMode = coarsePointer || lowMemory;
+
+    const renderer = new Renderer({
+      alpha: true,
+      premultipliedAlpha: false,
+      dpr: lowPowerMode ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+    });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
-    const noiseData = generateNoiseTexture(256);
+    const noiseSize = lowPowerMode ? 128 : 256;
+    const noiseData = generateNoiseTexture(noiseSize);
     const noiseTexture = new Texture(gl, {
       image: noiseData,
-      width: 256,
-      height: 256,
+      width: noiseSize,
+      height: noiseSize,
       generateMipmaps: false,
       flipY: false,
     });
@@ -241,9 +250,17 @@ export default function EvilEye({
     container.appendChild(gl.canvas);
 
     let animationFrameId;
+    let lastRenderTime = 0;
+    const minFrameGap = lowPowerMode ? 1000 / 30 : 0;
 
     function update(time) {
       animationFrameId = requestAnimationFrame(update);
+
+      if (minFrameGap && time - lastRenderTime < minFrameGap) {
+        return;
+      }
+      lastRenderTime = time;
+
       mouse.x += (mouse.tx - mouse.x) * 0.05;
       mouse.y += (mouse.ty - mouse.y) * 0.05;
       program.uniforms.uMouse.value = [mouse.x, mouse.y];
