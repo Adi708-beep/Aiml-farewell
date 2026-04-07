@@ -225,6 +225,10 @@ main.sphere-main {
 }
 
 @media (max-width: 768px) {
+  main.sphere-main {
+    touch-action: pan-y;
+  }
+
   .item__image {
     inset: 7px;
   }

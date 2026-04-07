@@ -1,0 +1,294 @@
+.organizer-card {
+  width: min(100%, 300px);
+  position: relative;
+  background:
+    radial-gradient(circle at 10% -20%, var(--section-accent-soft, rgba(255, 42, 42, 0.2)), transparent 42%),
+    linear-gradient(160deg, rgba(20, 6, 6, 0.92), rgba(8, 8, 8, 0.96));
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 34px rgba(255, 20, 20, 0.12);
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+  will-change: transform;
+}
+
+.organizer-card,
+.organizer-image-wrap,
+.organizer-image,
+.organizer-image-placeholder {
+  border-radius: 40;
+}
+
+.organizer-special-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 6;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 246, 199, 0.85);
+  background:
+    linear-gradient(135deg, rgba(255, 242, 165, 0.97), rgba(255, 197, 73, 0.98) 55%, rgba(201, 141, 24, 0.98));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 8px 22px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(255, 201, 87, 0.42);
+}
+
+.organizer-special-badge span {
+  display: block;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #271600;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.organizer-card::before,
+.organizer-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.organizer-card::before {
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  z-index: 4;
+}
+
+.organizer-card::after {
+  inset: -40% -10%;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0) 28%,
+    rgba(255, 255, 255, 0.13) 46%,
+    rgba(255, 255, 255, 0) 63%
+  );
+  transform: translateX(-80%) rotate(6deg);
+  opacity: 0;
+  transition: transform 0.7s ease, opacity 0.45s ease;
+  z-index: 3;
+}
+
+.organizer-card:hover {
+  transform: perspective(980px) translateY(-8px) rotateX(2deg) rotateY(-1.6deg);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 20px 38px rgba(0, 0, 0, 0.55),
+    0 0 34px var(--section-accent-soft, rgba(255, 20, 20, 0.2)),
+    inset 0 0 38px rgba(255, 20, 20, 0.14);
+}
+
+.organizer-card:hover::after {
+  opacity: 1;
+  transform: translateX(66%) rotate(6deg);
+}
+
+.organizer-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: #111;
+  overflow: hidden;
+  border-radius: 40px;
+}
+
+.organizer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease, filter 0.55s ease;
+}
+
+.organizer-card:hover .organizer-image {
+  transform: scale(1.045);
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.organizer-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(26px, 5vw, 40px);
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(circle at 20% 20%, var(--section-accent-soft, rgba(255, 0, 0, 0.24)), transparent 46%),
+    radial-gradient(circle at 80% 80%, rgba(255, 216, 77, 0.16), transparent 45%),
+    linear-gradient(145deg, #141414, #050505);
+}
+
+.organizer-image-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.68) 0%,
+    rgba(0, 0, 0, 0.1) 44%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  transition: background 0.4s ease;
+  z-index: 1;
+}
+
+.organizer-image-blend {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(64px, 10vw, 92px);
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(14, 0, 0, 0.72) 58%,
+    rgba(0, 0, 0, 0.94) 100%
+  );
+}
+
+.organizer-card:hover .organizer-image-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(18, 0, 0, 0.1) 45%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+.organizer-meta {
+  position: relative;
+  z-index: 3;
+  margin-top: -20px;
+  padding: 36px 18px 22px;
+  text-align: center;
+  font-family: 'Stranger Things', sans-serif;
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 0, 0, 0.14) 0%,
+    rgba(0, 0, 0, 0.95) 24%,
+    rgba(18, 0, 0, 0.86) 100%
+  );
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.35s ease;
+}
+
+.organizer-card:hover .organizer-meta {
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.97),
+      rgba(24, 0, 0, 0.9)
+    ),
+    radial-gradient(circle at 0% 0%, var(--section-accent-soft, rgba(255, 0, 0, 0.16)), transparent 42%);
+}
+
+.organizer-role {
+  margin: 0;
+  font-size: clamp(9px, 1.8vw, 11px);
+  letter-spacing: 3px;
+  color: var(--section-accent, #ff5858);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px var(--section-accent-soft, rgba(255, 88, 88, 0.24));
+}
+
+.organizer-name {
+  margin: 0;
+  font-size: clamp(15px, 2.2vw, 19px);
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.22),
+    0 0 18px rgba(255, 255, 255, 0.06);
+}
+
+.organizer-year {
+  margin: 0;
+  font-size: clamp(11px, 2vw, 13px);
+  letter-spacing: 3px;
+  color: #ffd84d;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 216, 77, 0.26);
+}
+
+.organizer-card:focus-within {
+  outline: 1px solid rgba(255, 255, 255, 0.42);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .organizer-card {
+    width: min(100%, 340px);
+    border-radius: 40px;
+  }
+
+  .organizer-role,
+  .organizer-year,
+  .organizer-name {
+    letter-spacing: 2px;
+  }
+
+  .organizer-meta {
+    min-height: 112px;
+    margin-top: -16px;
+    padding: 30px 14px 16px;
+  }
+
+  .organizer-special-badge {
+    top: 12px;
+    left: 12px;
+    padding: 5px 10px;
+  }
+
+  .organizer-special-badge span {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+}
+
+@media (hover: none) {
+  .organizer-card:hover {
+    transform: none;
+  }
+
+  .organizer-card:hover::after {
+    opacity: 0;
+    transform: translateX(-80%) rotate(6deg);
+  }
+
+  .organizer-card:hover .organizer-image {
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organizer-card,
+  .organizer-card::after,
+  .organizer-image,
+  .organizer-image-overlay,
+  .organizer-meta {
+    transition: none;
+  }
+}

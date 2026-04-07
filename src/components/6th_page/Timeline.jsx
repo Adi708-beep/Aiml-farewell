@@ -43,7 +43,7 @@ const timelineData = [
 
 const Timeline = () => {
   return (
-    <div className="timeline-wrapper">
+    <div id="event" className="timeline-wrapper">
 
       {/* Heading */}
       <div className="timeline-header">

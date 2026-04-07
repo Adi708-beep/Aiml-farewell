@@ -1,0 +1,232 @@
+.organizers-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #000;
+  padding: 150px 20px 90px;
+  overflow: hidden;
+}
+
+.organizers-page::before,
+.organizers-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.organizers-page::before {
+  background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+  opacity: 0.18;
+  z-index: 0;
+}
+
+.organizers-page::after {
+  background:
+    radial-gradient(circle at 10% 16%, rgba(255, 42, 42, 0.13), transparent 34%),
+    radial-gradient(circle at 88% 80%, rgba(255, 209, 102, 0.08), transparent 34%);
+  z-index: 0;
+}
+
+.organizers-content {
+  position: relative;
+  z-index: 1;
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.organizers-page-heading {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  row-gap: 4px;
+  text-align: center;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(34px, 7vw, 80px);
+  letter-spacing: clamp(4px, 1.2vw, 10px);
+  color: #ff2a2a;
+  text-shadow:
+    0 0 9px rgba(255, 0, 0, 0.9),
+    0 0 22px rgba(255, 0, 0, 0.45),
+    0 0 44px rgba(255, 0, 0, 0.22);
+}
+
+.organizers-page-heading span {
+  margin: 0;
+  text-align: center;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(34px, 7vw, 80px);
+  letter-spacing: clamp(4px, 1.2vw, 10px);
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+
+.organizers-section {
+  --section-accent: #ff2a2a;
+  --section-accent-soft: rgba(255, 42, 42, 0.24);
+
+  position: relative;
+  margin-top: clamp(34px, 5vw, 72px);
+  padding: clamp(20px, 3vw, 34px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at 10% -20%, var(--section-accent-soft), transparent 42%),
+    linear-gradient(145deg, rgba(18, 0, 0, 0.72), rgba(6, 0, 0, 0.86));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: organizersSectionReveal 0.75s ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.organizers-section-heading {
+  margin: 0;
+  text-align: center;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(20px, 3.5vw, 40px);
+  letter-spacing: clamp(2px, 0.75vw, 7px);
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.4),
+    0 0 22px rgba(255, 255, 255, 0.14);
+}
+
+.organizers-section-subtitle {
+  margin: 10px auto 0;
+  max-width: 760px;
+  padding: 0 6px;
+  text-align: center;
+  font-family: 'Stranger Things', sans-serif;
+  font-size: clamp(10px, 1.9vw, 13px);
+  letter-spacing: 2px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.72);
+  overflow-wrap: anywhere;
+}
+
+.organizers-cards-grid {
+  margin-top: clamp(20px, 3vw, 28px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-items: center;
+  gap: 30px;
+}
+
+.organizers-card-entry {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px) scale(0.985);
+  animation: organizersCardReveal 0.6s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+  animation-delay: var(--card-delay, 0.2s);
+}
+
+@keyframes organizersSectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes organizersCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .organizers-page {
+    padding: 136px 16px 74px;
+  }
+
+  .organizers-section {
+    margin-top: clamp(28px, 4vw, 54px);
+    padding: clamp(16px, 2.5vw, 24px);
+  }
+
+  .organizers-cards-grid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .organizers-page {
+    padding: 124px 14px 72px;
+  }
+
+  .organizers-section {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .organizers-cards-grid {
+    gap: 20px;
+  }
+
+  .organizers-section-subtitle {
+    letter-spacing: 1.5px;
+    line-height: 1.7;
+  }
+
+  .organizers-page-heading span {
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .organizers-page {
+    padding: 114px 12px 60px;
+  }
+
+  .organizers-page-heading,
+  .organizers-section-heading {
+    letter-spacing: 2px;
+  }
+
+  .organizers-page-heading span {
+    margin-right: 6px;
+  }
+
+  .organizers-section-subtitle {
+    font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .organizers-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .organizers-section {
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organizers-section,
+  .organizers-card-entry {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

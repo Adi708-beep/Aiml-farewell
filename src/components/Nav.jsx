@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { GoArrowUpRight } from 'react-icons/go';
 import { FaInstagram, FaEnvelope } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import '../styles/CardNav.css';
 
 const CardNav = ({
@@ -92,6 +93,21 @@ const CardNav = ({
     if (el) itemsRef.current[i] = el;
   };
 
+  const handleMenuItemClick = () => {
+    if (!isExpanded) return;
+
+    const tl = tlRef.current;
+    setIsHamburgerOpen(false);
+
+    if (!tl) {
+      setIsExpanded(false);
+      return;
+    }
+
+    tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
+    tl.reverse();
+  };
+
   return (
     <div className={`card-nav-container ${className}`}>
       <nav
@@ -132,33 +148,35 @@ const CardNav = ({
         {/* MENU CONTENT */}
         <div className="card-nav-content">
 
-          <a href="#event" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="/#event" onClick={handleMenuItemClick} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div ref={setItemRef(0)} className="menu-item">
               EVENT <GoArrowUpRight />
             </div>
           </a>
 
-          <a href="#segments" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="/#segment" onClick={handleMenuItemClick} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div ref={setItemRef(1)} className="menu-item">
               SPECIAL SEGMENTS <GoArrowUpRight />
             </div>
           </a>
 
-          <a href="#organizers" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/organizers" onClick={handleMenuItemClick} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div ref={setItemRef(2)} className="menu-item">
               ORGANIZERS <GoArrowUpRight />
             </div>
-          </a>
+          </Link>
 
-          <a href="#volunteers" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/volunteers" onClick={handleMenuItemClick} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div ref={setItemRef(3)} className="menu-item">
               VOLUNTEERS <GoArrowUpRight />
             </div>
-          </a>
+          </Link>
 
           {/* CONTACT SECTION */}
           <div ref={setItemRef(5)} className="menu-item contact">
-            CONTACT
+            <a href="/#contact" onClick={handleMenuItemClick} style={{ textDecoration: 'none', color: 'inherit' }}>
+              CONTACT
+            </a>
             <div className="contact-icons">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />

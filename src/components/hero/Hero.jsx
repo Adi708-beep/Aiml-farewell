@@ -20,9 +20,8 @@ const Hero = () => {
           <div className="popup-box" onClick={(e) => e.stopPropagation()}>
             <h2>STAY TUNED</h2>
             <p>
-              Organisers and Volunteers are yet to be revealed.
+             Volunteers registration from 1st year will be live soon ! <br />
               <br />
-              Stay tuned for updates.
             </p>
             <button onClick={() => setShowPopup(false)}>OK</button>
           </div>
