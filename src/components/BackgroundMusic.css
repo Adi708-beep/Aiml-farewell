@@ -1,0 +1,100 @@
+.music-toggle {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 9998;
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2), transparent 45%),
+    linear-gradient(155deg, rgba(45, 0, 0, 0.95), rgba(8, 8, 8, 0.96));
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(255, 0, 0, 0.32),
+    inset 0 0 20px rgba(255, 30, 30, 0.2);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.music-toggle:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.52),
+    0 0 24px rgba(255, 0, 0, 0.45),
+    inset 0 0 20px rgba(255, 60, 60, 0.28);
+}
+
+.music-toggle.playing {
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    0 0 28px rgba(255, 0, 0, 0.58),
+    inset 0 0 22px rgba(255, 70, 70, 0.3);
+}
+
+.music-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+
+.music-toggle.playing .music-pulse {
+  animation: musicPulse 1.8s ease-in-out infinite;
+}
+
+.music-icon-wrap {
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 10px;
+}
+
+.music-note {
+  filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.5));
+}
+
+.music-state {
+  font-size: 16px;
+  transform: translateX(1px);
+}
+
+@keyframes musicPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.14);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .music-toggle {
+    width: 52px;
+    height: 52px;
+    left: 12px;
+    bottom: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-toggle,
+  .music-pulse {
+    animation: none !important;
+    transition: none;
+  }
+}

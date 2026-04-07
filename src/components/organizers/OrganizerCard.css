@@ -23,7 +23,7 @@
 .organizer-image-wrap,
 .organizer-image,
 .organizer-image-placeholder {
-  border-radius: 40;
+  border-radius: 40px;
 }
 
 .organizer-special-badge {
@@ -95,12 +95,22 @@
 }
 
 .organizer-image-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 112px;
+  height: 112px;
+  aspect-ratio: 1 / 1;
   background: #111;
   overflow: hidden;
-  border-radius: 40px;
+  border-radius: 50%;
+  z-index: 5;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--section-accent-soft, rgba(255, 42, 42, 0.22));
 }
 
 .organizer-image {
@@ -109,6 +119,7 @@
   object-fit: cover;
   display: block;
   transition: transform 0.55s ease, filter 0.55s ease;
+  border-radius: 50%;
 }
 
 .organizer-card:hover .organizer-image {
@@ -129,6 +140,7 @@
     radial-gradient(circle at 20% 20%, var(--section-accent-soft, rgba(255, 0, 0, 0.24)), transparent 46%),
     radial-gradient(circle at 80% 80%, rgba(255, 216, 77, 0.16), transparent 45%),
     linear-gradient(145deg, #141414, #050505);
+  border-radius: 50%;
 }
 
 .organizer-image-overlay {
@@ -143,22 +155,11 @@
   );
   transition: background 0.4s ease;
   z-index: 1;
+  border-radius: 50%;
 }
 
 .organizer-image-blend {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: clamp(64px, 10vw, 92px);
-  pointer-events: none;
-  z-index: 2;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(14, 0, 0, 0.72) 58%,
-    rgba(0, 0, 0, 0.94) 100%
-  );
+  display: none;
 }
 
 .organizer-card:hover .organizer-image-overlay {
@@ -173,8 +174,8 @@
 .organizer-meta {
   position: relative;
   z-index: 3;
-  margin-top: -20px;
-  padding: 36px 18px 22px;
+  margin-top: 0;
+  padding: 142px 18px 22px;
   text-align: center;
   font-family: 'Stranger Things', sans-serif;
   background: linear-gradient(
@@ -183,7 +184,7 @@
     rgba(0, 0, 0, 0.95) 24%,
     rgba(18, 0, 0, 0.86) 100%
   );
-  min-height: 128px;
+  min-height: 274px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -208,6 +209,7 @@
   color: var(--section-accent, #ff5858);
   text-transform: uppercase;
   text-shadow: 0 0 10px var(--section-accent-soft, rgba(255, 88, 88, 0.24));
+  line-height: 1.4;
 }
 
 .organizer-name {
@@ -216,7 +218,7 @@
   letter-spacing: 2px;
   color: #ffffff;
   text-transform: uppercase;
-  line-height: 1.3;
+  line-height: 1.35;
   overflow-wrap: anywhere;
   text-shadow:
     0 0 8px rgba(255, 255, 255, 0.22),
@@ -230,6 +232,7 @@
   color: #ffd84d;
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(255, 216, 77, 0.26);
+  line-height: 1.4;
 }
 
 .organizer-card:focus-within {
@@ -243,6 +246,12 @@
     border-radius: 40px;
   }
 
+  .organizer-image-wrap {
+    top: 16px;
+    width: 98px;
+    height: 98px;
+  }
+
   .organizer-role,
   .organizer-year,
   .organizer-name {
@@ -250,9 +259,9 @@
   }
 
   .organizer-meta {
-    min-height: 112px;
-    margin-top: -16px;
-    padding: 30px 14px 16px;
+    min-height: 238px;
+    margin-top: 0;
+    padding: 122px 14px 16px;
   }
 
   .organizer-special-badge {

@@ -258,7 +258,7 @@ export const LaserFlow = ({
   decay = 1.1,
   falloffStart = 1.2,
   fogFallSpeed = 0.6,
-  color = '#FF79C6'
+  color = '#ff0000'
 }) => {
   const mountRef = useRef(null);
   const rendererRef = useRef(null);
@@ -557,7 +557,7 @@ export const LaserFlow = ({
     uniforms.uFalloffStart.value = falloffStart;
     uniforms.uFogFallSpeed.value = fogFallSpeed;
 
-    const { r, g, b } = hexToRGB(color || '#FFFFFF');
+    const { r, g, b } = hexToRGB(color || '#ff0000');
     uniforms.uColor.value.set(r, g, b);
   }, [
     wispDensity,

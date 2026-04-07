@@ -14,13 +14,13 @@ const OrganizerCard = ({ member }) => {
 
   return (
     <article className="organizer-card">
-      <div className="organizer-image-wrap">
-        {isSpecialLead && (
-          <div className="organizer-special-badge" aria-label="Special lead badge">
-            <span>LEAD</span>
-          </div>
-        )}
+      {isSpecialLead && (
+        <div className="organizer-special-badge" aria-label="Special lead badge">
+          <span>LEAD</span>
+        </div>
+      )}
 
+      <div className="organizer-image-wrap">
         {member.image ? (
           <img className="organizer-image" src={member.image} alt={member.name} loading="lazy" />
         ) : (

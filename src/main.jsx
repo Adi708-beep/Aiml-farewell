@@ -6,12 +6,14 @@ import App from './App.jsx'
 import BlankThemePage from './pages/BlankThemePage.jsx'
 import OrganizersPage from './pages/OrganizersPage.jsx'
 import SmoothScroll from './components/SmoothScroll.jsx'
+import BackgroundMusic from './components/BackgroundMusic.jsx'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <SmoothScroll />
+      <BackgroundMusic />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/event" element={<Navigate to="/#event" replace />} />
