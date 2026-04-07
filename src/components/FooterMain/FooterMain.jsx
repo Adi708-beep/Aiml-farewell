@@ -71,10 +71,10 @@ export default function FooterMain() {
 
           <div className="footer-links">
             <h3>MENU</h3>
-            <a href="#event">EVENT</a>
-            <a href="#segments">SPECIAL SEGMENTS</a>
-            <a href="#organizers">ORGANIZERS</a>
-            <a href="#volunteers">VOLUNTEERS</a>
+            <a href="/#event">EVENT</a>
+            <a href="/#segment">SPECIAL SEGMENTS</a>
+            <a href="/organizers">ORGANIZERS</a>
+            <a href="/volunteers">VOLUNTEERS</a>
           </div>
 
           <div className="footer-links">

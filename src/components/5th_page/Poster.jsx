@@ -100,11 +100,11 @@ const Poster = () => {
 
             <div className="detail">
               <p className="label">VENUE</p>
-              <p>MAIN AUDITORIUM</p>
+              <p>STCET DIAS</p>
             </div>
 
             <div className="detail">
-              <p className="label">CITY</p>
+              <p className="label">LOCATION</p>
               <p>STCET CAMPUS</p>
             </div>
 

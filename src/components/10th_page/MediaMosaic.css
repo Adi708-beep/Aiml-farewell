@@ -41,9 +41,6 @@
   break-inside: avoid;
   margin: 0 0 14px;
   width: 100%;
-  contain: layout paint;
-  content-visibility: auto;
-  contain-intrinsic-size: 280px 420px;
   background: #050505;
   border: 1px solid rgba(255, 0, 0, 0.95);
   border-radius: 16px;
@@ -67,7 +64,6 @@
 .mosaic-fallback {
   display: block;
   width: 100%;
-  transform: translateZ(0);
   aspect-ratio: 2 / 3;
   object-fit: cover;
   background: #070707;

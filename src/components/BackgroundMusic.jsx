@@ -52,14 +52,8 @@ const BackgroundMusic = () => {
     const setup = async () => {
       if (!mounted) return;
 
-      const onPlay = () => {
-        setIsPlaying(true);
-        window.dispatchEvent(new CustomEvent('bgm:state', { detail: { playing: true } }));
-      };
-      const onPause = () => {
-        setIsPlaying(false);
-        window.dispatchEvent(new CustomEvent('bgm:state', { detail: { playing: false } }));
-      };
+      const onPlay = () => setIsPlaying(true);
+      const onPause = () => setIsPlaying(false);
       const onError = () => {
         const next = sourceIndexRef.current + 1;
         if (next >= MUSIC_SOURCES.length) return;
