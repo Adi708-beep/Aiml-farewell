@@ -1,5 +1,6 @@
 import "./FooterMain.css";
 import { FaInstagram, FaEnvelope, FaMapMarkerAlt, FaArrowUp } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function FooterMain() {
   const email = "aimlfarewell@gmail.com";
@@ -71,10 +72,9 @@ export default function FooterMain() {
 
           <div className="footer-links">
             <h3>MENU</h3>
-            <a href="/#event">EVENT</a>
-            <a href="/#segment">SPECIAL SEGMENTS</a>
-            <a href="/organizers">ORGANIZERS</a>
-            <a href="/volunteers">VOLUNTEERS</a>
+           
+            <Link to="/organizers">ORGANIZERS</Link>
+            <Link to="/volunteers">VOLUNTEERS</Link>
           </div>
 
           <div className="footer-links">

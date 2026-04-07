@@ -1,93 +1,220 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './MediaMosaic.css';
 
 const MEDIA_ITEMS = [
-  { id: 'v1', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20173910.mp4' },
-  { id: 'v2', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20175141.mp4' },
-  { id: 'v3', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20174624.mp4' },
-  { id: 'v4', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20174738.mp4' },
-  { id: 'v5', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20174936.mp4' },
-  { id: 'v17', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20175852.mp4' },
-  { id: 'v18', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20180031.mp4' },
-  { id: 'v19', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20180207.mp4' },
-  { id: 'v20', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20180326.mp4' },
-  { id: 'v21', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20180440.mp4' },
-  { id: 'v22', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20184124.mp4' },
-  { id: 'v23', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20184245.mp4' },
-  { id: 'v24', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20184514.mp4' },
-  { id: 'v25', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20184628.mp4' },
-  { id: 'v26', type: 'video', src: '/video/Screen%20Recording%202026-04-07%20184755.mp4' },
-  { id: 'i1', type: 'image', src: '/media/pic-01.jpg' },
-  { id: 'v14', type: 'video', src: '/media/clip-14.mp4' },
-  { id: 'v6', type: 'video', src: '/media/clip-06.mp4' },
-  { id: 'v7', type: 'video', src: '/media/clip-07.mp4' },
-  { id: 'i2', type: 'image', src: '/media/pic-02.jpg' },
-  { id: 'v8', type: 'video', src: '/media/clip-08.mp4' },
-  { id: 'v9', type: 'video', src: '/media/clip-09.mp4' },
-  { id: 'i3', type: 'image', src: '/media/pic-03.jpg' },
-  { id: 'v10', type: 'video', src: '/media/clip-10.mp4' },
-  { id: 'v11', type: 'video', src: '/media/clip-11.mp4' },
-  { id: 'i4', type: 'image', src: '/media/pic-04.jpg' },
-  { id: 'v12', type: 'video', src: '/media/clip-12.mp4' },
-  { id: 'v13', type: 'video', src: '/media/clip-13.mp4' },
-  { id: 'i5', type: 'image', src: '/media/pic-05.jpg' },
-  { id: 'v15', type: 'video', src: '/media/clip-15.mp4' },
-  { id: 'v16', type: 'video', src: '/media/clip-16.mp4' }
+  { id: 'v1', src: '/video/Screen%20Recording%202026-04-07%20173910.mp4' },
+  { id: 'v2', src: '/video/Screen%20Recording%202026-04-07%20175141.mp4' },
+  { id: 'v3', src: '/video/Screen%20Recording%202026-04-07%20174624.mp4' },
+  { id: 'v4', src: '/video/Screen%20Recording%202026-04-07%20174738.mp4' },
+  { id: 'v5', src: '/video/Screen%20Recording%202026-04-07%20174936.mp4' },
+  { id: 'v6', src: '/video/Screen%20Recording%202026-04-07%20175852.mp4' },
+  { id: 'v7', src: '/video/Screen%20Recording%202026-04-07%20180031.mp4' },
+  { id: 'v8', src: '/video/Screen%20Recording%202026-04-07%20180207.mp4' },
+  { id: 'v9', src: '/video/Screen%20Recording%202026-04-07%20180326.mp4' },
+  { id: 'v10', src: '/video/Screen%20Recording%202026-04-07%20180440.mp4' },
+  { id: 'v11', src: '/video/Screen%20Recording%202026-04-07%20184124.mp4' },
+  { id: 'v12', src: '/video/Screen%20Recording%202026-04-07%20184245.mp4' },
+  { id: 'v13', src: '/video/Screen%20Recording%202026-04-07%20184514.mp4' },
+  { id: 'v14', src: '/video/Screen%20Recording%202026-04-07%20184628.mp4' },
+  { id: 'v15', src: '/video/Screen%20Recording%202026-04-07%20184755.mp4' }
 ];
 
 const getVariant = (index) => (index % 7) + 1;
 
 export default function MediaMosaic() {
   const sectionRef = useRef(null);
+  const tileRefs = useRef([]);
   const videoRefs = useRef([]);
+  const visibleIndexesRef = useRef(new Set());
+  const loadedIndexesRef = useRef(new Set());
+  const pendingLoadIndexesRef = useRef(new Set());
+  const sectionVisibleRef = useRef(false);
+  const queueRef = useRef(new Map());
+  const rafRef = useRef(0);
+  const lowPowerRef = useRef(false);
+
   const [allowVideoMotion, setAllowVideoMotion] = useState(true);
-  const [missingMap, setMissingMap] = useState({});
+  const [hiddenMap, setHiddenMap] = useState({});
 
   useEffect(() => {
-    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
     const lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
-    setAllowVideoMotion(!(coarsePointer || reduceMotion || lowMemory || lowCpu));
+
+    lowPowerRef.current = lowMemory || lowCpu;
+    setAllowVideoMotion(!reduceMotion);
   }, []);
+
+  const clearQueue = useCallback(() => {
+    queueRef.current.forEach(timeoutId => window.clearTimeout(timeoutId));
+    queueRef.current.clear();
+  }, []);
+
+  const ensureVideoLoaded = useCallback((index) => {
+    if (loadedIndexesRef.current.has(index)) return;
+
+    const item = MEDIA_ITEMS[index];
+    const video = videoRefs.current[index];
+    if (!item || !video) {
+      pendingLoadIndexesRef.current.add(index);
+      return;
+    }
+
+    if (!video.getAttribute('src')) {
+      video.setAttribute('src', item.src);
+    }
+
+    video.preload = 'metadata';
+    video.load();
+    loadedIndexesRef.current.add(index);
+    pendingLoadIndexesRef.current.delete(index);
+  }, []);
+
+  const syncPlayback = useCallback(() => {
+    if (!sectionVisibleRef.current || !allowVideoMotion) {
+      clearQueue();
+      videoRefs.current.forEach(video => video?.pause());
+      return;
+    }
+
+    const visible = Array.from(visibleIndexesRef.current)
+      .filter(index => !hiddenMap[MEDIA_ITEMS[index]?.id])
+      .sort((a, b) => a - b);
+
+    const activeSet = new Set(visible);
+    const stagger = lowPowerRef.current ? 90 : 30;
+
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+
+      if (activeSet.has(index)) {
+        ensureVideoLoaded(index);
+
+        if (!video.paused || queueRef.current.has(index)) {
+          return;
+        }
+
+        const position = visible.indexOf(index);
+        const timeoutId = window.setTimeout(() => {
+          queueRef.current.delete(index);
+          const current = videoRefs.current[index];
+          if (!current || !current.isConnected) return;
+
+          const playPromise = current.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+          }
+        }, Math.max(0, position) * stagger);
+
+        queueRef.current.set(index, timeoutId);
+      } else {
+        const queued = queueRef.current.get(index);
+        if (queued) {
+          window.clearTimeout(queued);
+          queueRef.current.delete(index);
+        }
+        video.pause();
+      }
+    });
+  }, [allowVideoMotion, clearQueue, ensureVideoLoaded, hiddenMap]);
+
+  const scheduleSyncPlayback = useCallback(() => {
+    if (rafRef.current) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = 0;
+      syncPlayback();
+    });
+  }, [syncPlayback]);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const playState = (isVisible) => {
-      videoRefs.current.forEach(video => {
-        if (!video) return;
-
-        if (isVisible && allowVideoMotion) {
-          const playPromise = video.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-          }
-        } else {
-          video.pause();
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
+    const sectionObserver = new IntersectionObserver(
       entries => {
-        const isVisible = entries[0]?.isIntersecting ?? false;
-        playState(isVisible);
+        sectionVisibleRef.current = entries[0]?.isIntersecting ?? false;
+        scheduleSyncPlayback();
       },
-      { threshold: 0.12 }
+      { threshold: 0.08 }
     );
 
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [allowVideoMotion]);
+    const tileObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const index = Number(entry.target.getAttribute('data-index'));
+          if (!Number.isFinite(index)) return;
 
-  const markMissing = (id) => {
-    setMissingMap(prev => {
+          if (entry.isIntersecting) {
+            visibleIndexesRef.current.add(index);
+          } else {
+            visibleIndexesRef.current.delete(index);
+          }
+        });
+        scheduleSyncPlayback();
+      },
+      { threshold: 0.18, rootMargin: '120px 0px' }
+    );
+
+    const preloadObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const index = Number(entry.target.getAttribute('data-index'));
+          if (!Number.isFinite(index)) return;
+          ensureVideoLoaded(index);
+        });
+      },
+      { threshold: 0, rootMargin: '360px 0px' }
+    );
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        clearQueue();
+        videoRefs.current.forEach(video => video?.pause());
+      } else {
+        scheduleSyncPlayback();
+      }
+    };
+
+    sectionObserver.observe(section);
+    tileRefs.current.forEach(tile => {
+      if (!tile) return;
+      tileObserver.observe(tile);
+      preloadObserver.observe(tile);
+    });
+    document.addEventListener('visibilitychange', onVisibilityChange, { passive: true });
+
+    scheduleSyncPlayback();
+
+    return () => {
+      sectionObserver.disconnect();
+      tileObserver.disconnect();
+      preloadObserver.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      clearQueue();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [allowVideoMotion, clearQueue, ensureVideoLoaded, scheduleSyncPlayback]);
+
+  const hideBrokenTile = useCallback((id, index) => {
+    visibleIndexesRef.current.delete(index);
+
+    const pending = queueRef.current.get(index);
+    if (pending) {
+      window.clearTimeout(pending);
+      queueRef.current.delete(index);
+    }
+
+    const video = videoRefs.current[index];
+    if (video) {
+      video.pause();
+    }
+
+    setHiddenMap(prev => {
       if (prev[id]) return prev;
       return { ...prev, [id]: true };
     });
-  };
+  }, []);
 
   return (
     <section className="mosaic-section" ref={sectionRef}>
@@ -95,42 +222,35 @@ export default function MediaMosaic() {
         <h2 className="mosaic-heading">AIML X STRANGERS THINGS</h2>
         <div className="mosaic-grid">
           {MEDIA_ITEMS.map((item, index) => {
-            const variant = getVariant(index);
-            const missing = !!missingMap[item.id];
+            const isHidden = !!hiddenMap[item.id];
+            if (isHidden) return null;
 
             return (
-              <article className={`mosaic-tile mosaic-variant-${variant}`} key={item.id}>
-                {!missing && item.type === 'image' && (
-                  <img
-                    src={item.src}
-                    alt="memory"
-                    className="mosaic-media"
-                    loading="lazy"
-                    onError={() => markMissing(item.id)}
-                  />
-                )}
-
-                {!missing && item.type === 'video' && (
-                  <video
-                    ref={el => {
-                      videoRefs.current[index] = el;
-                    }}
-                    src={item.src}
-                    className="mosaic-media"
-                    muted
-                    playsInline
-                    loop
-                    autoPlay={allowVideoMotion}
-                    preload="metadata"
-                    onError={() => markMissing(item.id)}
-                  />
-                )}
-
-                {missing && (
-                  <div className="mosaic-fallback">
-                    <span>{item.type === 'video' ? 'VIDEO SLOT' : 'IMAGE SLOT'}</span>
-                  </div>
-                )}
+              <article
+                className={`mosaic-tile mosaic-variant-${getVariant(index)}`}
+                key={item.id}
+                data-index={index}
+                ref={el => {
+                  tileRefs.current[index] = el;
+                }}
+              >
+                <video
+                  ref={el => {
+                    videoRefs.current[index] = el;
+                    if (el && pendingLoadIndexesRef.current.has(index)) {
+                      ensureVideoLoaded(index);
+                    }
+                  }}
+                  data-src={item.src}
+                  className="mosaic-media"
+                  muted
+                  playsInline
+                  loop
+                  autoPlay
+                  preload="none"
+                  onCanPlay={scheduleSyncPlayback}
+                  onError={() => hideBrokenTile(item.id, index)}
+                />
               </article>
             );
           })}
