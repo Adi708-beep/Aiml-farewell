@@ -1,6 +1,6 @@
 body{
 margin:0;
-background:black;
+background-color: black;
 color:white;
 font-family:'Stranger Things',sans-serif;
 
@@ -20,9 +20,8 @@ padding-top:120px;
 padding-bottom:120px;
 
 text-align:center;
+background-color: black;
 
-background:
-radial-gradient(circle at center,#111,#000);
 }
 
 .scratch-title{

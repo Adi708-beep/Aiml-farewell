@@ -1,0 +1,153 @@
+.mosaic-section {
+  position: relative;
+  background: #000;
+  padding: clamp(50px, 8vw, 90px) 14px;
+  overflow: hidden;
+}
+
+.mosaic-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+ 
+}
+
+.mosaic-inner {
+  position: relative;
+  width: min(1260px, 100%);
+  margin: 0 auto;
+}
+
+.mosaic-heading {
+  margin: 0 0 clamp(20px, 3.5vw, 36px);
+  text-align: center;
+  font-family: 'stranger things', sans-serif;
+  color: #ff2a2a;
+  font-size: clamp(22px, 4.2vw, 48px);
+  letter-spacing: clamp(2px, 0.7vw, 8px);
+  text-shadow:
+    0 0 10px rgba(255, 0, 0, 0.66),
+    0 0 24px rgba(255, 0, 0, 0.4),
+    0 0 40px rgba(255, 0, 0, 0.2);
+}
+
+.mosaic-grid {
+  column-count: 5;
+  column-gap: 14px;
+}
+
+.mosaic-tile {
+  break-inside: avoid;
+  margin: 0 0 14px;
+  width: 100%;
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 280px 420px;
+  background: #050505;
+  border: 1px solid rgba(255, 0, 0, 0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 0 14px rgba(255, 0, 0, 0.3),
+    0 0 30px rgba(255, 0, 0, 0.14),
+    inset 0 0 18px rgba(255, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mosaic-tile:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 0 22px rgba(255, 0, 0, 0.42),
+    0 0 42px rgba(255, 0, 0, 0.22),
+    inset 0 0 24px rgba(255, 0, 0, 0.14);
+}
+
+.mosaic-media,
+.mosaic-fallback {
+  display: block;
+  width: 100%;
+  transform: translateZ(0);
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: #070707;
+}
+
+.mosaic-fallback {
+  display: grid;
+  place-items: center;
+}
+
+.mosaic-fallback span {
+  color: rgba(255, 0, 0, 0.78);
+  letter-spacing: 2px;
+  font-size: 11px;
+  font-family: 'stranger things', sans-serif;
+}
+
+.mosaic-variant-1 {
+  transform: rotate(-1.5deg) translateY(8px);
+}
+
+.mosaic-variant-2 {
+  transform: rotate(1.3deg) translateY(-10px);
+}
+
+.mosaic-variant-2 .mosaic-media,
+.mosaic-variant-2 .mosaic-fallback {
+  aspect-ratio: 9 / 16;
+}
+
+.mosaic-variant-3 {
+  transform: rotate(-0.8deg) translateY(-6px);
+}
+
+.mosaic-variant-4 {
+  transform: rotate(1.8deg) translateY(12px);
+}
+
+.mosaic-variant-4 .mosaic-media,
+.mosaic-variant-4 .mosaic-fallback {
+  aspect-ratio: 3 / 5;
+}
+
+.mosaic-variant-5 {
+  transform: rotate(-1.2deg) translateY(5px);
+}
+
+.mosaic-variant-6 {
+  transform: rotate(0.9deg) translateY(-12px);
+}
+
+.mosaic-variant-7 {
+  transform: rotate(-1.9deg) translateY(10px);
+}
+
+@media (max-width: 1200px) {
+  .mosaic-grid {
+    column-count: 4;
+  }
+}
+
+@media (max-width: 900px) {
+  .mosaic-grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 640px) {
+  .mosaic-grid {
+    column-count: 2;
+    column-gap: 10px;
+  }
+
+  .mosaic-tile {
+    margin-bottom: 10px;
+    border-radius: 12px;
+  }
+
+  .mosaic-fallback span {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+}

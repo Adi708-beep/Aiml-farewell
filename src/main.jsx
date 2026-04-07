@@ -18,6 +18,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} />
         <Route path="/event" element={<Navigate to="/#event" replace />} />
         <Route path="/segments" element={<Navigate to="/#segment" replace />} />
+        <Route path="/contact" element={<Navigate to="/#contact" replace />} />
         <Route path="/organizers" element={<OrganizersPage />} />
         <Route path="/volunteers" element={<BlankThemePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

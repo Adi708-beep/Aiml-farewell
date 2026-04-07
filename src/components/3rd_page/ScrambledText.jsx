@@ -18,6 +18,9 @@ const ScrambledText = ({
 
   const rootRef = useRef(null);
   const charsRef = useRef([]);
+  const movePointRef = useRef(null);
+  const frameRef = useRef(0);
+  const inViewRef = useRef(true);
 
   useEffect(() => {
 
@@ -35,14 +38,19 @@ const ScrambledText = ({
       });
     });
 
-    const handleMove = e => {
+    const processMove = () => {
+      frameRef.current = 0;
+      if (!inViewRef.current || document.hidden) return;
+      if (!movePointRef.current) return;
+
+      const { x, y } = movePointRef.current;
 
       charsRef.current.forEach(c => {
 
         const { left, top, width, height } = c.getBoundingClientRect();
 
-        const dx = e.clientX - (left + width / 2);
-        const dy = e.clientY - (top + height / 2);
+        const dx = x - (left + width / 2);
+        const dy = y - (top + height / 2);
 
         const dist = Math.hypot(dx, dy);
 
@@ -65,12 +73,30 @@ const ScrambledText = ({
 
     };
 
+    const handleMove = e => {
+      movePointRef.current = { x: e.clientX, y: e.clientY };
+      if (!frameRef.current) {
+        frameRef.current = requestAnimationFrame(processMove);
+      }
+    };
+
     const el = rootRef.current;
 
-    el.addEventListener("pointermove", handleMove);
+    const observer = new IntersectionObserver(
+      entries => {
+        inViewRef.current = entries[0]?.isIntersecting ?? true;
+      },
+      { threshold: 0, rootMargin: '120px 0px' }
+    );
+
+    observer.observe(el);
+
+    el.addEventListener("pointermove", handleMove, { passive: true });
 
     return () => {
       el.removeEventListener("pointermove", handleMove);
+      observer.disconnect();
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
       split.revert();
     };
 

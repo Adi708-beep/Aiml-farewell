@@ -4,7 +4,7 @@ import "./Scratch.css";
 const characters = [
 {
 name:"Eleven",
-img:"https://images.unsplash.com/photo-1632974079504-2ed42d367bd5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0cmFuZ2VyJTIwdGhpbmdzJTIwY2hhcmFjdGVyc3xlbnwwfHwwfHx8MA%3D%3D"
+img:"https://media.licdn.com/dms/image/v2/D4D22AQEpV3z7nr6xLw/feedshare-shrink_800/B4DZ1nvWyVJUAc-/0/1775561960880?e=1776902400&v=beta&t=Ig5n4Obyl3f6P4EA-swcGaRP-1QSJBXBUyEn85P1jwM"
 },
 {
 name:"Steve",
@@ -17,6 +17,11 @@ img:"https://i.pinimg.com/736x/75/0d/1b/750d1bcf07ed6c486c4dcdb0338103c1.jpg"
 {
 name:"Hopper",
 img:"https://i.pinimg.com/736x/d1/e7/3a/d1e73a788330e0e7b46542f722e7bc08.jpg"
+},{
+
+
+name:"vecna",
+img:"https://media.licdn.com/dms/image/v2/D4D22AQH4vPUQ5tTwCg/feedshare-shrink_1280/B4DZ1nvw_GIcAM-/0/1775562068165?e=1776902400&v=beta&t=5QiKsFb_I2v2bgSsV70cu3e82IUMHitLu2Y6h_5x120"
 }
 ];
 

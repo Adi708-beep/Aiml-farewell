@@ -7,7 +7,20 @@ const BlankThemePage = () => {
     <>
       <EvilEye />
       <Nav />
-      <section className="blank-theme-page" aria-hidden="true" />
+      <section className="blank-theme-page" id="volunteers">
+        <div className="blank-theme-content">
+          <h1 className="blank-theme-title">VOLUNTEERS</h1>
+          <p className="blank-theme-subtitle">Registrations for volunteers are now live!</p>
+          <a
+            className="blank-theme-button"
+            href="https://forms.gle/2G7WRbKxiG8ozTCSA"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            REGISTER NOW
+          </a>
+        </div>
+      </section>
     </>
   );
 };

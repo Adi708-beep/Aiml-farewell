@@ -49,6 +49,10 @@ const TextPressure = ({
 
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef = useRef({ x: 0, y: 0 });
+  const inViewRef = useRef(true);
+  const pageVisibleRef = useRef(!document.hidden);
+  const needsRenderRef = useRef(true);
+  const lowPowerRef = useRef(false);
 
   const [fontSize, setFontSize] = useState(minFontSize);
   const [scaleY, setScaleY] = useState(1);
@@ -57,17 +61,24 @@ const TextPressure = ({
   const chars = text.split('');
 
   useEffect(() => {
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+    const lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+    lowPowerRef.current = coarsePointer || lowMemory || lowCpu;
+
     const handleMouseMove = e => {
       cursorRef.current.x = e.clientX;
       cursorRef.current.y = e.clientY;
+      needsRenderRef.current = true;
     };
     const handleTouchMove = e => {
       const t = e.touches[0];
       cursorRef.current.x = t.clientX;
       cursorRef.current.y = t.clientY;
+      needsRenderRef.current = true;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     if (containerRef.current) {
@@ -81,6 +92,29 @@ const TextPressure = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        inViewRef.current = entries[0]?.isIntersecting ?? true;
+      },
+      { threshold: 0, rootMargin: '120px 0px' }
+    );
+
+    const onVisibilityChange = () => {
+      pageVisibleRef.current = !document.hidden;
+    };
+
+    observer.observe(containerRef.current);
+    document.addEventListener('visibilitychange', onVisibilityChange, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 
@@ -117,9 +151,24 @@ const TextPressure = ({
 
   useEffect(() => {
     let rafId;
-    const animate = () => {
+    let lastTick = 0;
+    const frameInterval = lowPowerRef.current ? 1000 / 30 : 1000 / 50;
+
+    const animate = (time = 0) => {
+      rafId = requestAnimationFrame(animate);
+
+      if (!inViewRef.current || !pageVisibleRef.current) return;
+      if (time - lastTick < frameInterval) return;
+      lastTick = time;
+
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
+
+      const dx = cursorRef.current.x - mouseRef.current.x;
+      const dy = cursorRef.current.y - mouseRef.current.y;
+      const moving = Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1;
+
+      if (!moving && !needsRenderRef.current) return;
 
       if (titleRef.current) {
         const titleRect = titleRef.current.getBoundingClientRect();
@@ -152,10 +201,10 @@ const TextPressure = ({
         });
       }
 
-      rafId = requestAnimationFrame(animate);
+      needsRenderRef.current = moving;
     };
 
-    animate();
+    rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, [width, weight, italic, alpha]);
 

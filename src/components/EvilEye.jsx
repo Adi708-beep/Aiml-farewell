@@ -173,7 +173,8 @@ export default function EvilEye({
     const container = containerRef.current;
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
-    const lowPowerMode = coarsePointer || lowMemory;
+    const lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+    const lowPowerMode = coarsePointer || lowMemory || lowCpu;
 
     const renderer = new Renderer({
       alpha: true,
@@ -210,8 +211,14 @@ export default function EvilEye({
       mouse.ty = 0;
     }
 
+    let isPageVisible = !document.hidden;
+    const onVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+    };
+
     container.addEventListener('mousemove', onMouseMove);
     container.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('visibilitychange', onVisibilityChange, { passive: true });
 
     let program;
 
@@ -251,10 +258,14 @@ export default function EvilEye({
 
     let animationFrameId;
     let lastRenderTime = 0;
-    const minFrameGap = lowPowerMode ? 1000 / 30 : 0;
+    const minFrameGap = lowPowerMode ? 1000 / 30 : 1000 / 48;
 
     function update(time) {
       animationFrameId = requestAnimationFrame(update);
+
+      if (!isPageVisible) {
+        return;
+      }
 
       if (minFrameGap && time - lastRenderTime < minFrameGap) {
         return;
@@ -274,6 +285,7 @@ export default function EvilEye({
       window.removeEventListener('resize', resize);
       container.removeEventListener('mousemove', onMouseMove);
       container.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       container.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };

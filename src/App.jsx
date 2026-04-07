@@ -3,9 +3,11 @@ import "./index.css"
 import Nav from './components/Nav.jsx';
 import EvilEye from './components/EvilEye.jsx';
 import Hero from './components/hero/Hero.jsx';
+import AlphabetWall from './components/AlphabetWall.jsx';
 import TextPressure from './components/2nd_page/TextPressure.jsx';
 import About from './components/3rd_page/About.jsx';
 import Scratch from './components/4th_page/Scratch.jsx';
+import MediaMosaic from './components/10th_page/MediaMosaic.jsx';
 import ShinyText from './components/5th_page/ShinyText.jsx';
 import Poster from './components/5th_page/Poster.jsx';
 import Timeline from './components/6th_page/Timeline.jsx';
@@ -33,7 +35,9 @@ const App = () => {
     <Nav />
     <TextPressure />
     <About />
+    <AlphabetWall />
     <Scratch />
+    <MediaMosaic />
     <Float />
    
   

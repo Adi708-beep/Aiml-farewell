@@ -1,0 +1,120 @@
+.alphabet-wall-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 10vw, 96px) 0;
+}
+
+.alphabet-wall-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, oklch(0% 0 0) 0%, #000 70%);
+  pointer-events: none;
+}
+
+.alphabet-wall-inner {
+  position: relative;
+  width: min(940px, 100%);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.alphabet-wall-title {
+  margin: 0 0 12px;
+  text-align: center;
+  font-family: 'stranger things', sans-serif;
+  font-size: clamp(30px, 5vw, 46px);
+  color: #ff2a2a;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+}
+
+.alphabet-wall-subtitle {
+  margin: 0 0 clamp(28px, 5vw, 48px);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: clamp(12px, 1.8vw, 14px);
+  letter-spacing: 1px;
+}
+
+.alphabet-wall-grid-wrap {
+  position: relative;
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.alphabet-wall-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px 12px;
+}
+
+.alphabet-wall-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alphabet-wall-wire {
+  width: 1px;
+  height: 32px;
+}
+
+.alphabet-wall-bulb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+
+.alphabet-wall-letter {
+  margin-top: 8px;
+  font-family: 'stranger things', sans-serif;
+  font-size: clamp(18px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.alphabet-wall-message-wrap {
+  margin-top: clamp(32px, 6vw, 48px);
+  text-align: center;
+}
+
+.alphabet-wall-message {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .alphabet-wall-grid {
+    gap: 18px 8px;
+  }
+
+  .alphabet-wall-wire {
+    height: 24px;
+  }
+
+  .alphabet-wall-bulb {
+    width: 14px;
+    height: 14px;
+  }
+
+  .alphabet-wall-message {
+    letter-spacing: 0.25em;
+  }
+}
+
+@media (max-width: 480px) {
+  .alphabet-wall-grid {
+    gap: 14px 5px;
+  }
+
+  .alphabet-wall-letter {
+    font-size: 20px;
+  }
+}
