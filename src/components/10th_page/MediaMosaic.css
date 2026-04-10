@@ -39,6 +39,7 @@
 
 .mosaic-tile {
   break-inside: avoid;
+  position: relative;
   margin: 0 0 14px;
   width: 100%;
   background: #050505;
@@ -67,6 +68,44 @@
   aspect-ratio: 2 / 3;
   object-fit: cover;
   background: #070707;
+}
+
+.mosaic-loading-flash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  background:
+    linear-gradient(112deg, rgba(255, 0, 0, 0.05) 0%, rgba(255, 90, 90, 0.48) 50%, rgba(255, 0, 0, 0.05) 100%),
+    linear-gradient(180deg, rgba(6, 6, 6, 0.65) 0%, rgba(6, 6, 6, 0.22) 45%, rgba(6, 6, 6, 0.65) 100%);
+  background-size: 220% 220%, 100% 100%;
+  transition: opacity 0.32s ease;
+}
+
+.mosaic-tile-loading .mosaic-loading-flash {
+  opacity: 1;
+  animation: mosaicFlashSweep 1.1s linear infinite;
+}
+
+.mosaic-tile-ready .mosaic-loading-flash {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes mosaicFlashSweep {
+  0% {
+    background-position: 0% 50%, 0 0;
+    filter: saturate(1);
+  }
+  50% {
+    background-position: 55% 50%, 0 0;
+    filter: saturate(1.2);
+  }
+  100% {
+    background-position: 100% 50%, 0 0;
+    filter: saturate(1);
+  }
 }
 
 .mosaic-fallback {

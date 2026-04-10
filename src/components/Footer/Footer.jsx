@@ -65,14 +65,7 @@ const Footer = () => {
       </div>
 
       {/* 🔥 NEW: Developer Link */}
-      <a
-        href="https://www.linkedin.com/in/aditya-saha-326162338/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BqiRz3ALdRV6us7ArmcupUw%3D%3D"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="developer-link"
-      >
-        MEET THE DEVELOPER
-      </a>
+    
 
     </footer>
   );

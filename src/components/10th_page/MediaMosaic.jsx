@@ -26,84 +26,120 @@ export default function MediaMosaic() {
   const tileRefs = useRef([]);
   const videoRefs = useRef([]);
   const visibleIndexesRef = useRef(new Set());
-  const loadedIndexesRef = useRef(new Set());
-  const pendingLoadIndexesRef = useRef(new Set());
   const sectionVisibleRef = useRef(false);
   const queueRef = useRef(new Map());
+  const retryTimersRef = useRef(new Map());
   const rafRef = useRef(0);
   const lowPowerRef = useRef(false);
+  const [readyMap, setReadyMap] = useState({});
 
-  const [allowVideoMotion, setAllowVideoMotion] = useState(true);
-  const [hiddenMap, setHiddenMap] = useState({});
+  const refreshSectionVisibility = useCallback(() => {
+    const section = sectionRef.current;
+    if (!section || document.hidden) {
+      sectionVisibleRef.current = false;
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (viewportHeight <= 0) {
+      sectionVisibleRef.current = false;
+      return;
+    }
+
+    const visiblePixels = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+    const minVisiblePixels = Math.max(24, viewportHeight * 0.08);
+    sectionVisibleRef.current = rect.bottom > 0 && rect.top < viewportHeight && visiblePixels >= minVisiblePixels;
+  }, []);
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
     const lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
 
     lowPowerRef.current = lowMemory || lowCpu;
-    setAllowVideoMotion(!reduceMotion);
   }, []);
 
   const clearQueue = useCallback(() => {
     queueRef.current.forEach(timeoutId => window.clearTimeout(timeoutId));
     queueRef.current.clear();
+
+    retryTimersRef.current.forEach(timeoutId => window.clearTimeout(timeoutId));
+    retryTimersRef.current.clear();
   }, []);
 
-  const ensureVideoLoaded = useCallback((index) => {
-    if (loadedIndexesRef.current.has(index)) return;
-
-    const item = MEDIA_ITEMS[index];
+  const playVideo = useCallback((index, attempt = 0) => {
     const video = videoRefs.current[index];
-    if (!item || !video) {
-      pendingLoadIndexesRef.current.add(index);
-      return;
-    }
+    if (!video || !video.isConnected || video.error) return;
 
-    if (!video.getAttribute('src')) {
-      video.setAttribute('src', item.src);
-    }
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {
+        if (attempt >= 3) return;
+        const retryId = window.setTimeout(() => {
+          retryTimersRef.current.delete(index);
+          if (!sectionVisibleRef.current || !visibleIndexesRef.current.has(index)) return;
+          playVideo(index, attempt + 1);
+        }, 220 + attempt * 120);
 
-    video.preload = 'metadata';
-    video.load();
-    loadedIndexesRef.current.add(index);
-    pendingLoadIndexesRef.current.delete(index);
+        const existingRetry = retryTimersRef.current.get(index);
+        if (existingRetry) window.clearTimeout(existingRetry);
+        retryTimersRef.current.set(index, retryId);
+      });
+    }
   }, []);
 
   const syncPlayback = useCallback(() => {
-    if (!sectionVisibleRef.current || !allowVideoMotion) {
+    refreshSectionVisibility();
+
+    if (!sectionVisibleRef.current) {
       clearQueue();
       videoRefs.current.forEach(video => video?.pause());
       return;
     }
 
-    const visible = Array.from(visibleIndexesRef.current)
-      .filter(index => !hiddenMap[MEDIA_ITEMS[index]?.id])
-      .sort((a, b) => a - b);
+    const visible = Array.from(visibleIndexesRef.current).sort((a, b) => a - b);
+    const fallbackVisible = [];
+    if (visible.length === 0) {
+      for (let i = 0; i < MEDIA_ITEMS.length; i += 1) {
+        const tile = tileRefs.current[i];
+        if (!tile) continue;
+        const rect = tile.getBoundingClientRect();
+        if (rect.bottom >= -120 && rect.top <= window.innerHeight + 120) {
+          fallbackVisible.push(i);
+        }
+      }
+    }
 
-    const activeSet = new Set(visible);
+    const effectiveVisible = visible.length > 0 ? visible : fallbackVisible;
+    const activeIndexes = effectiveVisible;
+
+    const activeSet = new Set(activeIndexes);
     const stagger = lowPowerRef.current ? 90 : 30;
 
     videoRefs.current.forEach((video, index) => {
       if (!video) return;
 
       if (activeSet.has(index)) {
-        ensureVideoLoaded(index);
+        if (video.error) {
+          return;
+        }
+
+        video.preload = 'metadata';
+        if (video.readyState === 0) {
+          video.load();
+        }
 
         if (!video.paused || queueRef.current.has(index)) {
           return;
         }
 
-        const position = visible.indexOf(index);
+        const position = activeIndexes.indexOf(index);
         const timeoutId = window.setTimeout(() => {
           queueRef.current.delete(index);
           const current = videoRefs.current[index];
           if (!current || !current.isConnected) return;
 
-          const playPromise = current.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-          }
+          playVideo(index);
         }, Math.max(0, position) * stagger);
 
         queueRef.current.set(index, timeoutId);
@@ -113,10 +149,17 @@ export default function MediaMosaic() {
           window.clearTimeout(queued);
           queueRef.current.delete(index);
         }
+
+        const retryId = retryTimersRef.current.get(index);
+        if (retryId) {
+          window.clearTimeout(retryId);
+          retryTimersRef.current.delete(index);
+        }
+
         video.pause();
       }
     });
-  }, [allowVideoMotion, clearQueue, ensureVideoLoaded, hiddenMap]);
+  }, [clearQueue, playVideo, refreshSectionVisibility]);
 
   const scheduleSyncPlayback = useCallback(() => {
     if (rafRef.current) return;
@@ -126,9 +169,43 @@ export default function MediaMosaic() {
     });
   }, [syncPlayback]);
 
+  const handleVideoError = useCallback((event) => {
+    const video = event.currentTarget;
+    if (!video) return;
+
+    const retries = Number(video.dataset.retryCount || '0');
+    if (retries >= 2) return;
+
+    video.dataset.retryCount = String(retries + 1);
+    window.setTimeout(() => {
+      if (!video.isConnected) return;
+      video.load();
+      scheduleSyncPlayback();
+    }, 180);
+  }, [scheduleSyncPlayback]);
+
+  const markVideoReady = useCallback((id) => {
+    setReadyMap(prev => {
+      if (prev[id]) return prev;
+      return { ...prev, [id]: true };
+    });
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const resumeTimers = new Set();
+
+    const scheduleResumeWithRetries = () => {
+      const delays = [0, 120, 320, 640];
+      delays.forEach(delay => {
+        const timerId = window.setTimeout(() => {
+          resumeTimers.delete(timerId);
+          scheduleSyncPlayback();
+        }, delay);
+        resumeTimers.add(timerId);
+      });
+    };
 
     const sectionObserver = new IntersectionObserver(
       entries => {
@@ -152,19 +229,7 @@ export default function MediaMosaic() {
         });
         scheduleSyncPlayback();
       },
-      { threshold: 0.18, rootMargin: '120px 0px' }
-    );
-
-    const preloadObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const index = Number(entry.target.getAttribute('data-index'));
-          if (!Number.isFinite(index)) return;
-          ensureVideoLoaded(index);
-        });
-      },
-      { threshold: 0, rootMargin: '360px 0px' }
+      { threshold: 0.01, rootMargin: '160px 0px' }
     );
 
     const onVisibilityChange = () => {
@@ -172,49 +237,56 @@ export default function MediaMosaic() {
         clearQueue();
         videoRefs.current.forEach(video => video?.pause());
       } else {
-        scheduleSyncPlayback();
+        scheduleResumeWithRetries();
       }
+    };
+
+    const onUserActivation = () => {
+      scheduleSyncPlayback();
+    };
+
+    const onPageRestore = () => {
+      scheduleResumeWithRetries();
+    };
+
+    const onPageHide = () => {
+      clearQueue();
+      videoRefs.current.forEach(video => video?.pause());
     };
 
     sectionObserver.observe(section);
     tileRefs.current.forEach(tile => {
       if (!tile) return;
       tileObserver.observe(tile);
-      preloadObserver.observe(tile);
     });
     document.addEventListener('visibilitychange', onVisibilityChange, { passive: true });
+    window.addEventListener('pointerdown', onUserActivation, { passive: true });
+    window.addEventListener('keydown', onUserActivation, { passive: true });
+    window.addEventListener('focus', onPageRestore, { passive: true });
+    window.addEventListener('pageshow', onPageRestore, { passive: true });
+    window.addEventListener('resize', onPageRestore, { passive: true });
+    window.addEventListener('online', onPageRestore);
+    window.addEventListener('pagehide', onPageHide);
 
-    scheduleSyncPlayback();
+    scheduleResumeWithRetries();
 
     return () => {
       sectionObserver.disconnect();
       tileObserver.disconnect();
-      preloadObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('pointerdown', onUserActivation);
+      window.removeEventListener('keydown', onUserActivation);
+      window.removeEventListener('focus', onPageRestore);
+      window.removeEventListener('pageshow', onPageRestore);
+      window.removeEventListener('resize', onPageRestore);
+      window.removeEventListener('online', onPageRestore);
+      window.removeEventListener('pagehide', onPageHide);
+      resumeTimers.forEach(timerId => window.clearTimeout(timerId));
+      resumeTimers.clear();
       clearQueue();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [allowVideoMotion, clearQueue, ensureVideoLoaded, scheduleSyncPlayback]);
-
-  const hideBrokenTile = useCallback((id, index) => {
-    visibleIndexesRef.current.delete(index);
-
-    const pending = queueRef.current.get(index);
-    if (pending) {
-      window.clearTimeout(pending);
-      queueRef.current.delete(index);
-    }
-
-    const video = videoRefs.current[index];
-    if (video) {
-      video.pause();
-    }
-
-    setHiddenMap(prev => {
-      if (prev[id]) return prev;
-      return { ...prev, [id]: true };
-    });
-  }, []);
+  }, [clearQueue, scheduleSyncPlayback]);
 
   return (
     <section className="mosaic-section" ref={sectionRef}>
@@ -222,12 +294,11 @@ export default function MediaMosaic() {
         <h2 className="mosaic-heading">AIML X STRANGERS THINGS</h2>
         <div className="mosaic-grid">
           {MEDIA_ITEMS.map((item, index) => {
-            const isHidden = !!hiddenMap[item.id];
-            if (isHidden) return null;
+            const isReady = !!readyMap[item.id];
 
             return (
               <article
-                className={`mosaic-tile mosaic-variant-${getVariant(index)}`}
+                className={`mosaic-tile mosaic-variant-${getVariant(index)} ${isReady ? 'mosaic-tile-ready' : 'mosaic-tile-loading'}`}
                 key={item.id}
                 data-index={index}
                 ref={el => {
@@ -237,20 +308,23 @@ export default function MediaMosaic() {
                 <video
                   ref={el => {
                     videoRefs.current[index] = el;
-                    if (el && pendingLoadIndexesRef.current.has(index)) {
-                      ensureVideoLoaded(index);
-                    }
                   }}
-                  data-src={item.src}
+                  src={item.src}
                   className="mosaic-media"
                   muted
                   playsInline
                   loop
                   autoPlay
-                  preload="none"
-                  onCanPlay={scheduleSyncPlayback}
-                  onError={() => hideBrokenTile(item.id, index)}
+                  preload="metadata"
+                  onCanPlay={() => {
+                    markVideoReady(item.id);
+                    scheduleSyncPlayback();
+                  }}
+                  onPlaying={() => markVideoReady(item.id)}
+                  onLoadedData={() => markVideoReady(item.id)}
+                  onError={handleVideoError}
                 />
+                <div className="mosaic-loading-flash" aria-hidden="true" />
               </article>
             );
           })}
